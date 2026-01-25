@@ -15,6 +15,12 @@ public class AuthController {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+	   // ✅ ROOT URL FIX
+    @GetMapping("/")
+    public String home() {
+        return "redirect:/run";
+    }
+	
     // ===============================
     // 1️⃣ LOGIN PAGE
     // ===============================
@@ -139,3 +145,4 @@ public class AuthController {
         return "redirect:/run";
     }
 }
+
