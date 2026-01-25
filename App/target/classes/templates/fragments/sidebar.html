@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="sidebar(activePage)">
+
+  <aside class="sidebar">
+    <div class="profile">
+      <img src="/profile.jpg" alt="Profile">
+      <h3 th:text="${name}">Admin</h3>
+      <p>Admin Panel</p>
+    </div>
+
+    <ul>
+      <li th:classappend="${activePage == 'dashboard'} ? 'active'"
+          onclick="window.location.href='/success'">
+        <i class="fa-solid fa-table-columns"></i> Dashboard
+      </li>
+
+      <li th:classappend="${activePage == 'students'} ? 'active'"
+          onclick="window.location.href='/students'">
+        <i class="fa-solid fa-user-graduate"></i> Students
+      </li>
+
+      <li>
+        <form action="/logout" method="post">
+          <button style="all:unset;color:red;cursor:pointer;">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </button>
+        </form>
+      </li>
+    </ul>
+  </aside>
+
+</div>
+
+</body>
+</html>

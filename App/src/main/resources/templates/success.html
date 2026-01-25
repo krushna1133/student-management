@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+    }
+
+    .layout {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* ===== SIDEBAR (SAME AS student.html) ===== */
+    .sidebar {
+      width: 250px;
+      background: white;
+      padding: 20px;
+      border-right: 1px solid #eee;
+    }
+
+    .sidebar .profile {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .sidebar img {
+      width: 60px;
+      border-radius: 50%;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar li {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .sidebar li.active,
+    .sidebar li:hover {
+      background: #e8f0ff;
+      color: #2563eb;
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ===== DASHBOARD CARDS ===== */
+    .cards {
+      margin-top: 25px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    .card h3 {
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .card h1 {
+      color: #2563eb;
+      font-size: 32px;
+    }
+
+    /* ===== CHART ===== */
+    .chart-box {
+      margin-top: 30px;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+    
+    .chart-wrapper {
+	  width: 300px;      /* 👈 control size here */
+	  height: 300px;
+	  margin: 0 auto;    /* center horizontally */
+	}
+    
+    .chart-box {
+	  display: flex;
+	  flex-direction: column;
+	  align-items: center;
+	}
+    
+  </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+ <div th:replace="fragments/sidebar :: sidebar('dashboard')"></div>
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h2>Dashboard</h2>
+      <span>Welcome, <b th:text="${name}">Admin</b></span>
+    </div>
+
+    <!-- DASHBOARD STATS -->
+    <div class="cards">
+      <div class="card">
+        <h3>Total Students</h3>
+        <h1 th:text="${totalStudents}">0</h1>
+      </div>
+    </div>
+
+    <!-- CHART -->
+	
+	<div class="chart-box">
+	  <h3 style="margin-bottom:15px;">Students by Course</h3>
+	  <div class="chart-wrapper">
+	    <canvas id="studentChart"></canvas>
+	  </div>
+	</div>
+	
+
+
+  </main>
+
+</div>
+
+<script th:inline="javascript">
+/*<![CDATA[*/
+
+  const courseData = /*[[${courseStats}]]*/ [];
+
+  const labels = courseData.map(c => c.course);
+  const values = courseData.map(c => c.count);
+
+  const ctx = document.getElementById("studentChart");
+
+  if (ctx) {
+    new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: labels,
+        datasets: [{
+          data: values,
+          backgroundColor: [
+            "#2563eb",
+            "#16a34a",
+            "#f59e0b",
+            "#ef4444",
+            "#8b5cf6",
+            "#0ea5e9"
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,  // ✅ THIS IS REQUIRED
+        plugins: {
+          legend: {
+            position: "bottom"
+          }
+        }
+      }
+    });
+  }
+
+/*]]>*/
+</script>
+
+
+</body>
+</html>
