@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Dashboard</title>
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+    }
+
+    .layout {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* ===== MAIN ===== */
+    .main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    /* ===== TOPBAR ===== */
+    .topbar {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    /* ===== INFO CARDS ===== */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #2563eb;
+    }
+
+    .card p {
+      font-size: 15px;
+      color: #444;
+    }
+
+    /* ===== UPDATE FORM ===== */
+    .form-card {
+      margin-top: 30px;
+      max-width: 420px;
+    }
+
+    .form-card input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .form-card button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      background: #2563eb;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .form-card button:hover {
+      background: #1e40af;
+    }
+
+    .logout-btn {
+      background: none;
+      border: none;
+      color: red;
+      cursor: pointer;
+      font-size: 14px;
+    }
+      .sidebar {
+	  width: 250px;
+	  background: white;
+	  padding: 20px;
+	  border-right: 1px solid #eee;
+	}
+	
+	.sidebar .profile {
+	  text-align: center;
+	  margin-bottom: 25px;
+	}
+	
+	.sidebar ul {
+	  list-style: none;
+	}
+	
+	.sidebar li {
+	  padding: 12px;
+	  border-radius: 8px;
+	  margin-bottom: 6px;
+	  cursor: pointer;
+	  display: flex;
+	  gap: 10px;
+	  align-items: center;
+	}
+	
+	.sidebar li.active,
+	.sidebar li:hover {
+	  background: #e8f0ff;
+	  color: #2563eb;
+	}
+	    
+  </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- ===== SAME SIDEBAR (STUDENT MODE) ===== -->
+  <div th:replace="fragments/sidebar :: sidebar('student')"></div>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <h2>Student Dashboard</h2>
+      <form action="/logout" method="post">
+        <button class="logout-btn">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+      </form>
+    </div>
+
+    <!-- STUDENT INFO -->
+    <div class="cards">
+      <div class="card">
+        <h3>Name</h3>
+        <p th:text="${student.name}">Student Name</p>
+      </div>
+
+      <div class="card">
+        <h3>Email</h3>
+        <p th:text="${student.email}">student@email.com</p>
+      </div>
+
+      <div class="card">
+        <h3>Course</h3>
+        <p th:text="${student.course}">Course Name</p>
+      </div>
+    </div>
+
+    <!-- UPDATE PROFILE / PASSWORD -->
+    <div class="card form-card">
+      <h3>Update Profile / Password</h3>
+
+      <form action="/student/update-profile" method="post">
+        <input type="hidden" name="username" th:value="${student.username}">
+
+        <input name="email" placeholder="New Email" required>
+        <input name="password" type="password" placeholder="New Password" required>
+
+        <button>Update</button>
+      </form>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Students</title>
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+    }
+
+    .layout {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    /* TOPBAR */
+    .topbar {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #eef2ff;
+    }
+
+    /* ACTION CARDS */
+    .cards {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card i {
+      font-size: 35px;
+      color: #2563eb;
+      margin-bottom: 15px;
+    }
+
+    .delete i {
+      color: #ef4444;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 25px;
+      width: 380px;
+      border-radius: 15px;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-content h3 {
+      margin-bottom: 15px;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .modal-content button {
+      width: 100%;
+      padding: 10px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .modal-content .danger {
+      background: #ef4444;
+    }
+
+    .close {
+      position: absolute;
+      right: 12px;
+      top: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      color: #999;
+    }
+    
+	.sidebar {
+	  width: 250px;
+	  background: white;
+	  padding: 20px;
+	  border-right: 1px solid #eee;
+	}
+	
+	.sidebar .profile {
+	  text-align: center;
+	  margin-bottom: 25px;
+	}
+	
+	.sidebar ul {
+	  list-style: none;
+	}
+	
+	.sidebar li {
+	  padding: 12px;
+	  border-radius: 8px;
+	  margin-bottom: 6px;
+	  cursor: pointer;
+	  display: flex;
+	  gap: 10px;
+	  align-items: center;
+	}
+	
+	.sidebar li.active,
+	.sidebar li:hover {
+	  background: #e8f0ff;
+	  color: #2563eb;
+	}
+	    
+  </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- SAME SIDEBAR -->
+  <div th:replace="fragments/sidebar :: sidebar('students')"></div>
+
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="topbar">
+      <h2>Student Management</h2>
+      <span>Welcome, <b th:text="${name}">Admin</b></span>
+    </div>
+
+    <!-- STUDENT TABLE -->
+    <table>
+      <tr>
+        <th>ID</th><th>Name</th><th>Email</th><th>Course</th>
+      </tr>
+      <tr th:each="s : ${students}">
+        <td th:text="${s.id}"></td>
+        <td th:text="${s.name}"></td>
+        <td th:text="${s.email}"></td>
+        <td th:text="${s.course}"></td>
+      </tr>
+    </table>
+
+    <!-- ACTION CARDS -->
+    <div class="cards">
+      <div class="card" onclick="openModal('addModal')">
+        <i class="fa-solid fa-user-plus"></i>
+        <h3>Add Student</h3>
+      </div>
+
+      <div class="card" onclick="openModal('updateModal')">
+        <i class="fa-solid fa-user-pen"></i>
+        <h3>Update Student</h3>
+      </div>
+
+      <div class="card delete" onclick="openModal('deleteModal')">
+        <i class="fa-solid fa-user-xmark"></i>
+        <h3>Delete Student</h3>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ADD MODAL -->
+<div class="modal" id="addModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('addModal')">&times;</span>
+    <h3>Add Student</h3>
+    <form action="/student/add" method="post">
+	  <input name="name" placeholder="Student Name" required>
+	  <input name="email" placeholder="Email Address" required>
+	  <input name="course" placeholder="Course" required>
+	
+	  <!-- LOGIN CREDENTIALS -->
+	  <input name="username" placeholder="Student Username" required>
+	  <input name="password" type="password" placeholder="Temporary Password" required>
+	
+	  <button>Add Student</button>
+</form>
+
+  </div>
+</div>
+
+<!-- UPDATE MODAL -->
+<div class="modal" id="updateModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('updateModal')">&times;</span>
+    <h3>Update Student</h3>
+    <form action="/student/update" method="post">
+      <input name="id" placeholder="Student ID" required>
+      <input name="name" placeholder="Name" required>
+      <input name="email" placeholder="Email" required>
+      <input name="course" placeholder="Course" required>
+      <button>Update</button>
+    </form>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal" id="deleteModal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('deleteModal')">&times;</span>
+    <h3>Delete Student</h3>
+    <form action="/student/delete" method="post">
+      <input name="id" placeholder="Student ID" required>
+      <button class="danger">Delete</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openModal(id) {
+    document.getElementById(id).style.display = "flex";
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).style.display = "none";
+  }
+
+  window.onclick = function(e) {
+    document.querySelectorAll('.modal').forEach(m => {
+      if (e.target === m) m.style.display = "none";
+    });
+  }
+</script>
+
+</body>
+</html>

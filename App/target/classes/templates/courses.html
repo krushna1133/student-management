@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Courses</title>
+
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f7fb;
+    }
+
+    .layout {
+      display: flex;
+      height: 100vh;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .topbar {
+      background: white;
+      padding: 15px 20px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    table {
+      width: 100%;
+      background: white;
+      border-radius: 12px;
+      border-collapse: collapse;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    th {
+      background: #eef2ff;
+      text-align: left;
+    }
+
+    .cards {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      cursor: pointer;
+    }
+
+    .card i {
+      font-size: 35px;
+      color: #2563eb;
+      margin-bottom: 15px;
+    }
+
+    .delete i {
+      color: #ef4444;
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 25px;
+      width: 380px;
+      border-radius: 15px;
+    }
+
+    .modal-content input,
+    .modal-content textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .modal-content button {
+      width: 100%;
+      padding: 10px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .danger {
+      background: #ef4444;
+    }
+    
+    .sidebar {
+	  width: 250px;
+	  background: white;
+	  padding: 20px;
+	  border-right: 1px solid #eee;
+	}
+	
+	.sidebar .profile {
+	  text-align: center;
+	  margin-bottom: 25px;
+	}
+	
+	.sidebar ul {
+	  list-style: none;
+	}
+	
+	.sidebar li {
+	  padding: 12px;
+	  border-radius: 8px;
+	  margin-bottom: 6px;
+	  cursor: pointer;
+	  display: flex;
+	  gap: 10px;
+	  align-items: center;
+	}
+	
+	.sidebar li.active,
+	.sidebar li:hover {
+	  background: #e8f0ff;
+	  color: #2563eb;
+	}
+	    
+  </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- SAME SIDEBAR -->
+  <div th:replace="fragments/sidebar :: sidebar('courses')"></div>
+
+  <main class="main">
+
+    <div class="topbar">
+      <h2>Course Management</h2>
+      <span>Welcome, <b th:text="${name}">Admin</b></span>
+    </div>
+
+    <!-- COURSE TABLE -->
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Course Name</th>
+        <th>Description</th>
+      </tr>
+      <tr th:each="c : ${courses}">
+        <td th:text="${c.id}"></td>
+        <td th:text="${c.name}"></td>
+        <td th:text="${c.description}"></td>
+      </tr>
+    </table>
+
+    <!-- ACTION CARDS -->
+    <div class="cards">
+
+      <div class="card" onclick="openModal('addModal')">
+        <i class="fa-solid fa-plus"></i>
+        <h3>Add Course</h3>
+      </div>
+
+      <div class="card" onclick="openModal('updateModal')">
+        <i class="fa-solid fa-pen"></i>
+        <h3>Update Course</h3>
+      </div>
+
+      <div class="card delete" onclick="openModal('deleteModal')">
+        <i class="fa-solid fa-trash"></i>
+        <h3>Delete Course</h3>
+      </div>
+      
+    </div>
+
+  </main>
+</div>
+
+<!-- ADD MODAL -->
+<div class="modal" id="addModal">
+  <div class="modal-content">
+    <form action="/course/add" method="post">
+      <input name="name" placeholder="Course Name" required>
+      <textarea name="description" placeholder="Description"></textarea>
+      <button>Add Course</button>
+    </form>
+  </div>
+</div>
+
+<!-- UPDATE MODAL -->
+<div class="modal" id="updateModal">
+  <div class="modal-content">
+    <form action="/course/update" method="post">
+      <input name="id" placeholder="Course ID" required>
+      <input name="name" placeholder="Course Name" required>
+      <textarea name="description" placeholder="Description"></textarea>
+      <button>Update Course</button>
+    </form>
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div class="modal" id="deleteModal">
+  <div class="modal-content">
+    <form action="/course/delete" method="post">
+      <input name="id" placeholder="Course ID" required>
+      <button class="danger">Delete Course</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function openModal(id) {
+    document.getElementById(id).style.display = "flex";
+  }
+
+  window.onclick = function(e) {
+    document.querySelectorAll('.modal').forEach(m => {
+      if (e.target === m) m.style.display = "none";
+    });
+  }
+</script>
+
+</body>
+</html>

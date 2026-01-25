@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="sidebar(activePage)">
+
+  <aside class="sidebar">
+    <div class="profile">
+      <img src="/profile.jpg" alt="Profile">
+      <h3 th:text="${name}">Student</h3>
+      <p>Student Dashboard</p>
+    </div>
+
+    <ul>
+
+      <li th:if="${session.role == 'STUDENT'}"
+	    th:classappend="${activePage == 'student'} ? 'active'">
+	  <i class="fa-solid fa-user"></i> Dashboard
+	</li>
+      
+
+      <li>
+        <form action="/logout" method="post">
+          <button style="all:unset;color:red;cursor:pointer;">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </button>
+        </form>
+      </li>
+    </ul>
+  </aside>
+
+</div>
+
+</body>
+</html>
