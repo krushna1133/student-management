@@ -26,7 +26,7 @@ public class AuthController {
     // ===============================
     @GetMapping("/run")
     public String loginPage() {
-        return "NewFile"; // your login HTML
+        return "login"; // your login HTML
     }
 
     // ===============================
@@ -145,4 +145,5 @@ public class AuthController {
         return "redirect:/run";
     }
 }
+
 
