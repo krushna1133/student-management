@@ -1,0 +1,106 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Students</title>
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <style>
+      body {
+        background: #f5f7fb;
+        font-family: Segoe UI;
+      }
+      .layout {
+        display: flex;
+        height: 100vh;
+      }
+      .main {
+        flex: 1;
+        padding: 20px;
+      }
+      .layout {
+        display: flex;
+        height: 100vh;
+      }
+      .sidebar {
+        width: 240px;
+        background: white;
+        padding: 20px;
+      }
+      .main {
+        flex: 1;
+        padding: 20px;
+      }
+      .card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+      }
+      .stats {
+        font-size: 32px;
+        color: #2563eb;
+        font-weight: bold;
+      }
+
+      table {
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .actions {
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .card {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="layout">
+      <div
+        th:replace="~{fragments/admin-sidebar :: sidebar(${activePage})}"
+      ></div>
+
+      <main class="main">
+        <h2>Student Management</h2>
+
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Course</th>
+          </tr>
+          <tr th:each="s : ${students}">
+            <td th:text="${s.id}"></td>
+            <td th:text="${s.name}"></td>
+            <td th:text="${s.email}"></td>
+            <td th:text="${s.course}"></td>
+          </tr>
+        </table>
+
+        <div class="actions">
+          <div class="card">Add Student</div>
+          <div class="card">Update Student</div>
+          <div class="card">Delete Student</div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,195 +1,253 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
 
-<style>
-* {
-  box-sizing: border-box;
-}
+    <style>
+      * {
+        box-sizing: border-box;
+      }
 
-body {
-  margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(135deg, #fff8e1, #ffffff);
-}
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(135deg, #fff8e1, #ffffff);
+      }
 
-/* PAGE CENTER */
-.page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  position: relative;
-  overflow: hidden;
-}
+      /* PAGE CENTER */
+      .page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        position: relative;
+        overflow: hidden;
+      }
 
-/* ORB */
-.orb {
-  position: absolute;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(255, 255, 255, 0.9),
-    rgba(255, 200, 0, 0.35),
-    rgba(255, 150, 0, 0.15)
-  );
-  filter: blur(32px);
-  opacity: 0.9;
-  animation: float 12s ease-in-out infinite;
-  pointer-events: none;
-}
+      /* ORB */
+      .orb {
+        position: absolute;
+        width: 420px;
+        height: 420px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 200, 0, 0.35),
+          rgba(255, 150, 0, 0.15)
+        );
+        filter: blur(32px);
+        opacity: 0.9;
+        animation: float 12s ease-in-out infinite;
+        pointer-events: none;
+      }
 
-@keyframes float {
-  0% { transform: translate(-40px, -40px); }
-  50% { transform: translate(40px, 40px); }
-  100% { transform: translate(-40px, -40px); }
-}
+      @keyframes float {
+        0% {
+          transform: translate(-40px, -40px);
+        }
+        50% {
+          transform: translate(40px, 40px);
+        }
+        100% {
+          transform: translate(-40px, -40px);
+        }
+      }
 
-/* CARD */
-.card {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 420px;
-  padding: 32px 28px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.12);
-}
+      /* CARD */
+      .card {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 420px;
+        padding: 32px 28px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(16px);
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.12);
+      }
 
-/* TITLE */
-.card h2 {
-  text-align: center;
-  margin-bottom: 24px;
-  font-size: 26px;
-}
+      /* TITLE */
+      .card h2 {
+        text-align: center;
+        margin-bottom: 16px;
+        font-size: 26px;
+      }
 
-/* FORM */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
+      /* ROLE SWITCH */
+      .role-switch {
+        display: flex;
+        background: #f3f3f3;
+        border-radius: 14px;
+        padding: 4px;
+        margin-bottom: 22px;
+      }
 
-/* INPUT GROUP */
-.input-group {
-  display: flex;
-  flex-direction: column;
-}
+      .role-switch button {
+        flex: 1;
+        height: 40px;
+        border-radius: 12px;
+        border: none;
+        font-weight: 600;
+        background: transparent;
+        cursor: pointer;
+        transition: 0.3s;
+      }
 
-/* INPUT */
-input {
-  width: 100%;
-  height: 48px;
-  padding: 0 16px;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  font-size: 15px;
-  background: #fafafa;
-  transition: all 0.2s ease;
-}
+      .role-switch button.active {
+        background: linear-gradient(135deg, #ffd95a, #ffb703);
+        box-shadow: 0 6px 14px rgba(255, 183, 3, 0.35);
+      }
 
-input::placeholder {
-  color: #9e9e9e;
-}
+      /* FORM */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
 
-input:focus {
-  outline: none;
-  background: #ffffff;
-  border-color: #ffb703;
-  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.25);
-}
+      /* INPUT */
+      input {
+        width: 100%;
+        height: 48px;
+        padding: 0 16px;
+        border-radius: 12px;
+        border: 1px solid #e0e0e0;
+        font-size: 15px;
+        background: #fafafa;
+      }
 
-/* BUTTON */
-button {
-  height: 48px;
-  border-radius: 14px;
-  border: none;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  background: linear-gradient(135deg, #ffd95a, #ffb703);
-  box-shadow: 0 10px 20px rgba(255, 183, 3, 0.35);
-}
+      .message {
+        background: #e8f5e9;
+        color: #2e7d32;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
 
-/* LINK */
-.link {
-  margin-top: 18px;
-  text-align: center;
-  font-size: 14px;
-}
+      .error {
+        background: #ffe5e5;
+        color: #d32f2f;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
 
-.link a {
-  color: #ffb703;
-  font-weight: 700;
-  text-decoration: none;
-}
+      input:focus {
+        outline: none;
+        background: #ffffff;
+        border-color: #ffb703;
+        box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.25);
+      }
 
-/* MOBILE */
-@media (max-width: 480px) {
-  .card {
-    padding: 24px 18px;
-  }
+      /* LOGIN BUTTON */
+      .login-btn {
+        height: 48px;
+        border-radius: 14px;
+        border: none;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        background: linear-gradient(135deg, #ffd95a, #ffb703);
+        box-shadow: 0 10px 20px rgba(255, 183, 3, 0.35);
+      }
 
-  .card h2 {
-    font-size: 22px;
-  }
+      /* REGISTER LINK */
+      .link {
+        margin-top: 18px;
+        text-align: center;
+        font-size: 14px;
+      }
 
-  .orb {
-    width: 260px;
-    height: 260px;
-    filter: blur(24px);
-  }
-}
-</style>
-</head>
+      .link a {
+        color: #ffb703;
+        font-weight: 700;
+        text-decoration: none;
+      }
 
-<body>
+      /* MOBILE */
+      @media (max-width: 480px) {
+        .card {
+          padding: 24px 18px;
+        }
+      }
+    </style>
+  </head>
 
-<div class="page">
-  <div class="orb" id="orb"></div>
+  <body>
+    <div class="page">
+      <div class="orb" id="orb"></div>
 
-  <div class="card">
-    <h2>Login</h2>
+      <div class="card">
+        <h2 id="loginTitle">Student Login</h2>
+        <div class="message" th:if="${message}" th:text="${message}"></div>
+        <div class="error" th:if="${error}" th:text="${error}"></div>
 
-    <div class="error" th:if="${error}" th:text="${error}"></div>
+        <!-- ROLE SWITCH -->
+        <div class="role-switch">
+          <button class="active" id="studentBtn" onclick="setRole('student')">
+            Student
+          </button>
+          <button id="adminBtn" onclick="setRole('admin')">Admin</button>
+        </div>
 
-    <form action="/submit" method="post">
-      <div class="input-group">
-        <input type="text" name="username" placeholder="Username" required />
+        <form action="/login" method="post">
+          <input type="hidden" name="role" id="role" value="student" />
+
+          <input type="text" name="username" placeholder="Username" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+
+          <button class="login-btn" type="submit">Login</button>
+        </form>
+
+        <!-- REGISTER (ONLY FOR STUDENT) -->
+        <div class="link" id="registerLink">
+          Don’t have an account?
+          <a href="/register">Register</a>
+        </div>
       </div>
-
-      <div class="input-group">
-        <input type="password" name="password" placeholder="Password" required />
-      </div>
-
-      <button type="submit">Login</button>
-    </form>
-
-    <div class="link">
-      Don’t have an account?
-      <a href="/register">Register</a>
     </div>
-  </div>
-</div>
 
-<script>
-const orb = document.getElementById("orb");
+    <script>
+      const orb = document.getElementById("orb");
+      const studentBtn = document.getElementById("studentBtn");
+      const adminBtn = document.getElementById("adminBtn");
+      const registerLink = document.getElementById("registerLink");
+      const roleInput = document.getElementById("role");
+      const title = document.getElementById("loginTitle");
 
-document.addEventListener("mousemove", (e) => {
-  const x = (e.clientX / window.innerWidth - 0.5) * 40;
-  const y = (e.clientY / window.innerHeight - 0.5) * 40;
-  orb.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
-});
-</script>
+      function setRole(role) {
+        if (role === "student") {
+          studentBtn.classList.add("active");
+          adminBtn.classList.remove("active");
+          registerLink.style.display = "block";
+          title.innerText = "Student Login";
+        } else {
+          adminBtn.classList.add("active");
+          studentBtn.classList.remove("active");
+          registerLink.style.display = "none";
+          title.innerText = "Admin Login";
+        }
+        roleInput.value = role;
+      }
 
-</body>
+      document.addEventListener("mousemove", (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 40;
+        const y = (e.clientY / window.innerHeight - 0.5) * 40;
+        orb.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
+      });
+    </script>
+  </body>
 </html>
-

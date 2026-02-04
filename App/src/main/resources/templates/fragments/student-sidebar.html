@@ -1,35 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-<body>
+  <body>
+    <div th:fragment="sidebar(activePage)">
+      <aside class="sidebar">
+        <div class="profile">
+          <img src="/profile.jpg" alt="Profile" />
+          <h3 th:text="${name}">Student</h3>
+          <p>Student Dashboard</p>
+        </div>
 
-<div th:fragment="sidebar(activePage)">
+        <ul>
+          <!-- DASHBOARD -->
+          <li
+            th:classappend="${activePage == 'dashboard'} ? 'active'"
+            onclick="location.href = '/student/dashboard'"
+          >
+            <i class="fa-solid fa-user"></i> Dashboard
+          </li>
 
-  <aside class="sidebar">
-    <div class="profile">
-      <img src="/profile.jpg" alt="Profile">
-      <h3 th:text="${name}">Student</h3>
-      <p>Student Dashboard</p>
+          <!-- UPDATE PROFILE -->
+          <li
+            th:classappend="${activePage == 'profile'} ? 'active'"
+            onclick="location.href = '/student/profile'"
+          >
+            <i class="fa-solid fa-pen-to-square"></i> Update Profile
+          </li>
+
+          <!-- LOGOUT -->
+          <li>
+            <form action="/logout" method="post">
+              <button style="all: unset; color: red; cursor: pointer">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+              </button>
+            </form>
+          </li>
+        </ul>
+      </aside>
     </div>
-
-    <ul>
-
-      <li th:if="${session.role == 'STUDENT'}"
-	    th:classappend="${activePage == 'student'} ? 'active'">
-	  <i class="fa-solid fa-user"></i> Dashboard
-	</li>
-      
-
-      <li>
-        <form action="/logout" method="post">
-          <button style="all:unset;color:red;cursor:pointer;">
-            <i class="fa-solid fa-right-from-bracket"></i> Logout
-          </button>
-        </form>
-      </li>
-    </ul>
-  </aside>
-
-</div>
-
-</body>
+  </body>
 </html>

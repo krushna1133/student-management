@@ -1,0 +1,102 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Courses</title>
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <style>
+      body {
+        background: #f5f7fb;
+        font-family: Segoe UI;
+      }
+      .layout {
+        display: flex;
+        height: 100vh;
+      }
+      .main {
+        flex: 1;
+        padding: 20px;
+      }
+      .layout {
+        display: flex;
+        height: 100vh;
+      }
+      .sidebar {
+        width: 240px;
+        background: white;
+        padding: 20px;
+      }
+      .main {
+        flex: 1;
+        padding: 20px;
+      }
+      .card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+      }
+      .stats {
+        font-size: 32px;
+        color: #2563eb;
+        font-weight: bold;
+      }
+
+      table {
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+      }
+      th,
+      td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .actions {
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .card {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="layout">
+      <div
+        th:replace="~{fragments/admin-sidebar :: sidebar(${activePage})}"
+      ></div>
+
+      <main class="main">
+        <h2>Course Management</h2>
+
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Course Name</th>
+            <th>Description</th>
+          </tr>
+          <tr th:each="c : ${courses}">
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.name}"></td>
+            <td th:text="${c.description}"></td>
+          </tr>
+        </table>
+
+        <div class="actions">
+          <div class="card">Add Course</div>
+          <div class="card">Update Course</div>
+          <div class="card">Delete Course</div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

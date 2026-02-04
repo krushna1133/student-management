@@ -1,0 +1,119 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <style>
+      body {
+        background: #f5f7fb;
+        font-family: Segoe UI;
+      }
+      .layout {
+        display: flex;
+        height: 100vh;
+      }
+      .main {
+        flex: 1;
+        padding: 20px;
+      }
+      .layout {
+        display: flex;
+        height: 100vh;
+      }
+      .sidebar {
+        width: 240px;
+        background: white;
+        padding: 20px;
+      }
+      .main {
+        flex: 1;
+        padding: 20px;
+      }
+      .card {
+        background: white;
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+      }
+      .stats {
+        font-size: 32px;
+        color: #2563eb;
+        font-weight: bold;
+      }
+
+      table {
+        width: 100%;
+        background: white;
+        border-radius: 12px;
+      }
+      th,
+      td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .actions {
+        margin-top: 30px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+
+      .card {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+
+  <body>
+    <div class="layout">
+      <div
+        th:replace="~{fragments/admin-sidebar :: sidebar(${activePage})}"
+      ></div>
+
+      <main class="main">
+        <div class="card">
+          <h2>Total Students</h2>
+          <div class="stats" th:text="${totalStudents}">0</div>
+        </div>
+
+        <div class="card">
+          <canvas id="chart"></canvas>
+        </div>
+      </main>
+    </div>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+
+      const labels = /*[[${labels}]]*/ [];
+      const data = /*[[${counts}]]*/ [];
+
+      new Chart(document.getElementById("chart"), {
+        type: "pie",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              data: data,
+              backgroundColor: [
+                "#2563eb",
+                "#16a34a",
+                "#f59e0b",
+                "#ef4444",
+                "#8b5cf6",
+                "#06b6d4",
+              ],
+            },
+          ],
+        },
+      });
+
+      /*]]>*/
+    </script>
+  </body>
+</html>

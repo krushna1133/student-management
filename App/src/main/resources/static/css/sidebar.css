@@ -1,0 +1,47 @@
+@charset "UTF-8";
+
+.sidebar {
+  width: 250px;
+  background: white;
+  padding: 20px;
+  border-right: 1px solid #eee;
+  height: 100vh;
+}
+
+.sidebar .profile {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.sidebar .profile img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar li {
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.sidebar li.active,
+.sidebar li:hover {
+  background: #e8f0ff;
+  color: #2563eb;
+}
+
+.sidebar button {
+  background: none;
+  border: none;
+  font-size: 14px;
+}

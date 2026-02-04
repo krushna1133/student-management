@@ -1,211 +1,224 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register</title>
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register</title>
 
-<style>
-* {
-  box-sizing: border-box;
-}
+    <style>
+      * {
+        box-sizing: border-box;
+      }
 
-body {
-  margin: 0;
-  font-family: "Segoe UI", Arial, sans-serif;
-  background: linear-gradient(135deg, #fff8e1, #ffffff);
-}
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(135deg, #fff8e1, #ffffff);
+      }
 
-/* PAGE CENTER */
-.page {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  position: relative;
-  overflow: hidden;
-}
+      /* PAGE CENTER */
+      .page {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+        position: relative;
+        overflow: hidden;
+      }
 
-/* ORB */
-.orb {
-  position: absolute;
-  width: 460px;
-  height: 460px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 30% 30%,
-    rgba(255, 255, 255, 0.9),
-    rgba(255, 200, 0, 0.35),
-    rgb(128, 255, 255)
-  );
-  filter: blur(32px);
-  opacity: 0.9;
-  animation: float 14s ease-in-out infinite;
-  pointer-events: none;
-}
+      /* ORB */
+      .orb {
+        position: absolute;
+        width: 460px;
+        height: 460px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 30% 30%,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 200, 0, 0.35),
+          rgb(128, 255, 255)
+        );
+        filter: blur(32px);
+        opacity: 0.9;
+        animation: float 14s ease-in-out infinite;
+        pointer-events: none;
+      }
 
-@keyframes float {
-  0% { transform: translate(-60px, -40px); }
-  50% { transform: translate(70px, 50px); }
-  100% { transform: translate(-60px, -40px); }
-}
+      @keyframes float {
+        0% {
+          transform: translate(-60px, -40px);
+        }
+        50% {
+          transform: translate(70px, 50px);
+        }
+        100% {
+          transform: translate(-60px, -40px);
+        }
+      }
 
-/* CARD */
-.card {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 420px;
-  padding: 32px 28px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.12);
-}
+      /* CARD */
+      .card {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 420px;
+        padding: 32px 28px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(16px);
+        box-shadow: 0 24px 50px rgba(0, 0, 0, 0.12);
+      }
 
-/* TITLE */
-.card h2 {
-  text-align: center;
-  margin-bottom: 22px;
-  font-size: 26px;
-  font-weight: 700;
-  color: #111;
-}
+      /* TITLE */
+      .card h2 {
+        text-align: center;
+        margin-bottom: 22px;
+        font-size: 26px;
+        font-weight: 700;
+        color: #111;
+      }
 
-/* FORM */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+      /* FORM */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
 
-/* INPUT */
-input {
-  width: 100%;
-  height: 48px;
-  padding: 0 16px;
-  border-radius: 12px;
-  border: 1px solid #e0e0e0;
-  font-size: 15px;
-  background: #fafafa;
-  transition: all 0.2s ease;
-}
+      /* INPUT */
+      input {
+        width: 100%;
+        height: 48px;
+        padding: 0 16px;
+        border-radius: 12px;
+        border: 1px solid #e0e0e0;
+        font-size: 15px;
+        background: #fafafa;
+        transition: all 0.2s ease;
+      }
 
-input::placeholder {
-  color: #9e9e9e;
-}
+      input::placeholder {
+        color: #9e9e9e;
+      }
 
-input:focus {
-  outline: none;
-  background: #ffffff;
-  border-color: #ffb703;
-  box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.25);
-}
+      input:focus {
+        outline: none;
+        background: #ffffff;
+        border-color: #ffb703;
+        box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.25);
+      }
 
-/* BUTTON */
-button {
-  height: 48px;
-  margin-top: 6px;
-  border-radius: 14px;
-  border: none;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  background: linear-gradient(135deg, #ffd95a, #ffb703);
-  color: #111;
-  box-shadow: 0 10px 20px rgba(255, 183, 3, 0.35);
-  transition: transform 0.15s ease;
-}
+      /* BUTTON */
+      button {
+        height: 48px;
+        margin-top: 6px;
+        border-radius: 14px;
+        border: none;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        background: linear-gradient(135deg, #ffd95a, #ffb703);
+        color: #111;
+        box-shadow: 0 10px 20px rgba(255, 183, 3, 0.35);
+        transition: transform 0.15s ease;
+      }
 
-button:hover {
-  transform: translateY(-1px);
-}
+      button:hover {
+        transform: translateY(-1px);
+      }
 
-/* ERROR & MESSAGE */
-.error {
-  background: #ffe5e5;
-  color: #d32f2f;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
+      /* ERROR & MESSAGE */
+      .error {
+        background: #ffe5e5;
+        color: #d32f2f;
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 12px;
+      }
 
-.message {
-  margin-bottom: 12px;
-  font-size: 14px;
-  color: #2e7d32;
-  font-weight: 600;
-}
+      .message {
+        margin-bottom: 12px;
+        font-size: 14px;
+        color: #2e7d32;
+        font-weight: 600;
+      }
 
-/* LINK */
-.link {
-  margin-top: 18px;
-  text-align: center;
-  font-size: 14px;
-}
+      /* LINK */
+      .link {
+        margin-top: 18px;
+        text-align: center;
+        font-size: 14px;
+      }
 
-.link a {
-  color: #ffb703;
-  font-weight: 700;
-  text-decoration: none;
-}
+      .link a {
+        color: #ffb703;
+        font-weight: 700;
+        text-decoration: none;
+      }
 
-/* MOBILE */
-@media (max-width: 480px) {
-  .card {
-    padding: 24px 18px;
-  }
+      /* MOBILE */
+      @media (max-width: 480px) {
+        .card {
+          padding: 24px 18px;
+        }
 
-  .card h2 {
-    font-size: 22px;
-  }
+        .card h2 {
+          font-size: 22px;
+        }
 
-  .orb {
-    width: 260px;
-    height: 260px;
-    filter: blur(24px);
-  }
-}
-</style>
-</head>
+        .orb {
+          width: 260px;
+          height: 260px;
+          filter: blur(24px);
+        }
+      }
+    </style>
+  </head>
 
-<body>
+  <body>
+    <div class="page">
+      <div class="orb" id="orb"></div>
 
-<div class="page">
-  <div class="orb" id="orb"></div>
+      <div class="card">
+        <h2>Student Registration</h2>
 
-  <div class="card">
-    <h2>Register</h2>
+        <div class="error" th:if="${error}" th:text="${error}"></div>
+        <div class="message" th:if="${message}" th:text="${message}"></div>
 
-    <div class="error" th:if="${error}" th:text="${error}"></div>
-    <div class="message" th:if="${message}" th:text="${message}"></div>
+        <form action="/register" method="post">
+          <!-- REQUIRED FIELDS (MATCH CONTROLLER) -->
+          <input type="text" name="name" placeholder="Full Name" required />
+          <input type="text" name="username" placeholder="Username" required />
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="text" name="course" placeholder="Course" required />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
 
-    <form action="/register" method="post">
-      <input type="text" name="username" placeholder="Username" required />
-      <input type="email" name="email" placeholder="Email" required />
-      <input type="password" name="password" placeholder="Password" required />
-      <button type="submit">Create Account</button>
-    </form>
+          <button type="submit">Create Account</button>
+        </form>
 
-    <div class="link">
-      Already have an account?
-      <a href="/run">Login</a>
+        <div class="link">
+          Already have an account?
+          <a href="/login">Login</a>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-<script>
-const orb = document.getElementById("orb");
+    <script>
+      const orb = document.getElementById("orb");
 
-document.addEventListener("mousemove", (e) => {
-  const x = (e.clientX / window.innerWidth - 0.5) * 60;
-  const y = (e.clientY / window.innerHeight - 0.5) * 60;
-  orb.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
-});
-</script>
-
-</body>
+      document.addEventListener("mousemove", (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 60;
+        const y = (e.clientY / window.innerHeight - 0.5) * 60;
+        orb.style.transform = `translate(${x}px, ${y}px) scale(1.05)`;
+      });
+    </script>
+  </body>
 </html>

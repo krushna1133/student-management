@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Update Profile</title>
+
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <style>
+      body {
+        background: #f5f7fb;
+        font-family:
+          Segoe UI,
+          Arial;
+      }
+      .layout {
+        display: flex;
+        height: 100vh;
+      }
+      .main {
+        flex: 1;
+        padding: 30px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 16px;
+        padding: 30px;
+        max-width: 500px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        background: #2563eb;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .msg {
+        margin-bottom: 15px;
+        color: green;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="layout">
+      <!-- SIDEBAR -->
+      <div
+        th:replace="~{fragments/student-sidebar :: sidebar(${activePage})}"
+      ></div>
+
+      <!-- MAIN -->
+      <main class="main">
+        <div class="topbar">
+          <h2>Student Dashboard</h2>
+          <form action="/logout" method="post">
+            <button class="logout-btn">
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h2>Update Profile</h2>
+
+          <div class="msg" th:if="${message}" th:text="${message}"></div>
+
+          <form action="/student/update-profile" method="post">
+            <input
+              type="email"
+              name="email"
+              th:value="${student.email}"
+              placeholder="New Email"
+              required
+            />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="New Password"
+              required
+            />
+
+            <button type="submit">Update</button>
+          </form>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
