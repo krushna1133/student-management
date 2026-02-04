@@ -1,7 +1,6 @@
 package com.example.App;
 
 import jakarta.servlet.http.HttpSession;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AdminController {
@@ -17,39 +17,7 @@ public class AdminController {
   @Autowired
   private JdbcTemplate jdbcTemplate;
 
-  // DASHBOARD
-  // @GetMapping("/admin/dashboard")
-  // public String dashboard(HttpSession session, Model model) {
-  //
-  // if (!"ADMIN".equals(session.getAttribute("role"))) {
-  // return "redirect:/login";
-  // }
-  //
-  // model.addAttribute("name", session.getAttribute("username"));
-  //
-  // // total students
-  // Integer total = jdbcTemplate.queryForObject(
-  // "SELECT COUNT(*) FROM students", Integer.class);
-  // model.addAttribute("totalStudents", total);
-  //
-  // // chart data
-  // var rows = jdbcTemplate.queryForList(
-  // "SELECT course, COUNT(*) AS count FROM students GROUP BY course");
-  //
-  // List<String> labels = new ArrayList<>();
-  // List<Integer> counts = new ArrayList<>();
-  //
-  // for (var row : rows) {
-  // labels.add(row.get("course").toString());
-  // counts.add(((Number) row.get("count")).intValue());
-  // }
-  //
-  // model.addAttribute("labels", labels);
-  // model.addAttribute("counts", counts);
-  //
-  // return "admin-dashboard";
-  // }
-
+  // ================= DASHBOARD =================
   @GetMapping("/admin/dashboard")
   public String dashboard(HttpSession session, Model model) {
 
@@ -60,10 +28,10 @@ public class AdminController {
     model.addAttribute("name", session.getAttribute("username"));
     model.addAttribute("activePage", "dashboard");
 
-    model.addAttribute("totalStudents",
-        jdbcTemplate.queryForObject("SELECT COUNT(*) FROM students", Integer.class));
+    Integer total = jdbcTemplate.queryForObject(
+        "SELECT COUNT(*) FROM students", Integer.class);
+    model.addAttribute("totalStudents", total);
 
-    // chart logic already correct
     var rows = jdbcTemplate.queryForList(
         "SELECT course, COUNT(*) AS count FROM students GROUP BY course");
 
@@ -81,7 +49,7 @@ public class AdminController {
     return "admin-dashboard";
   }
 
-  // STUDENTS
+  // ================= STUDENTS LIST =================
   @GetMapping("/students")
   public String students(HttpSession session, Model model) {
 
@@ -98,7 +66,83 @@ public class AdminController {
     return "admin-students";
   }
 
-  // COURSES
+  // ================= ADD STUDENT PAGE =================
+  @GetMapping("/students/add")
+  public String addStudentPage(HttpSession session, Model model) {
+
+    if (!"ADMIN".equals(session.getAttribute("role"))) {
+      return "redirect:/login";
+    }
+
+    model.addAttribute("activePage", "students");
+    return "admin-add-student";
+  }
+
+  // ================= ADD STUDENT SUBMIT =================
+  @PostMapping("/students/add")
+  public String addStudent(
+      @RequestParam String name,
+      @RequestParam String email,
+      @RequestParam String course,
+      @RequestParam String username,
+      @RequestParam String password,
+      RedirectAttributes ra) {
+
+    jdbcTemplate.update(
+        "INSERT INTO students(name,email,course,username,password) VALUES (?,?,?,?,?)",
+        name, email, course, username, password);
+
+    ra.addFlashAttribute("message", "Student added successfully");
+    return "redirect:/students";
+  }
+
+  // ================= EDIT STUDENT PAGE =================
+  @GetMapping("/students/edit/{id}")
+  public String editStudent(
+      @PathVariable int id,
+      HttpSession session,
+      Model model) {
+
+    if (!"ADMIN".equals(session.getAttribute("role"))) {
+      return "redirect:/login";
+    }
+
+    model.addAttribute("student",
+        jdbcTemplate.queryForMap("SELECT * FROM students WHERE id=?", id));
+
+    model.addAttribute("activePage", "students");
+    return "admin-edit-student";
+  }
+
+  // ================= UPDATE STUDENT =================
+  @PostMapping("/students/update")
+  public String updateStudent(
+      @RequestParam int id,
+      @RequestParam String name,
+      @RequestParam String email,
+      @RequestParam String course,
+      RedirectAttributes ra) {
+
+    jdbcTemplate.update(
+        "UPDATE students SET name=?, email=?, course=? WHERE id=?",
+        name, email, course, id);
+
+    ra.addFlashAttribute("message", "Student updated successfully");
+    return "redirect:/students";
+  }
+
+  // ================= DELETE STUDENT =================
+  @PostMapping("/students/delete")
+  public String deleteStudent(
+      @RequestParam int id,
+      RedirectAttributes ra) {
+
+    jdbcTemplate.update("DELETE FROM students WHERE id=?", id);
+    ra.addFlashAttribute("message", "Student deleted successfully");
+    return "redirect:/students";
+  }
+
+  // ================= COURSES =================
   @GetMapping("/courses")
   public String courses(HttpSession session, Model model) {
 
@@ -114,5 +158,4 @@ public class AdminController {
 
     return "admin-courses";
   }
-
 }
