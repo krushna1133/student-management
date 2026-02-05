@@ -86,19 +86,36 @@
             <th>Name</th>
             <th>Email</th>
             <th>Course</th>
+            <th>Action</th>
           </tr>
+
           <tr th:each="s : ${students}">
             <td th:text="${s.id}"></td>
             <td th:text="${s.name}"></td>
             <td th:text="${s.email}"></td>
             <td th:text="${s.course}"></td>
+            <td>
+              <a th:href="@{'/students/edit/' + ${s.id}}">Edit</a>
+
+              <form
+                action="/students/delete"
+                method="post"
+                style="display: inline"
+              >
+                <input type="hidden" name="id" th:value="${s.id}" />
+                <button
+                  type="submit"
+                  onclick="return confirm('Delete student?');"
+                >
+                  Delete
+                </button>
+              </form>
+            </td>
           </tr>
         </table>
 
         <div class="actions">
-          <div class="card">Add Student</div>
-          <div class="card">Update Student</div>
-          <div class="card">Delete Student</div>
+          <a href="/students/add" class="card">Add Student</a>
         </div>
       </main>
     </div>

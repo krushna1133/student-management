@@ -31,7 +31,7 @@ public class AuthController {
         return "register";
     }
 
-    // LOGIN LOGIC
+    // ================= LOGIN LOGIC =================
     @PostMapping("/login")
     public String login(
             @RequestParam String username,
@@ -63,7 +63,36 @@ public class AuthController {
         return "redirect:/login";
     }
 
-    // LOGOUT
+    // ================= REGISTER LOGIC (FIX) =================
+    @PostMapping("/register")
+    public String register(
+            @RequestParam String name,
+            @RequestParam String username,
+            @RequestParam String email,
+            @RequestParam String course,
+            @RequestParam String password,
+            RedirectAttributes ra) {
+
+        // check if username already exists
+        Integer count = jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM students WHERE username=?",
+                Integer.class, username.trim());
+
+        if (count != null && count > 0) {
+            ra.addFlashAttribute("error", "Username already exists");
+            return "redirect:/register";
+        }
+
+        // insert new student
+        jdbcTemplate.update(
+                "INSERT INTO students (name, username, email, course, password) VALUES (?, ?, ?, ?, ?)",
+                name.trim(), username.trim(), email.trim(), course.trim(), password.trim());
+
+        ra.addFlashAttribute("message", "Registration successful! Please login.");
+        return "redirect:/login";
+    }
+
+    // ================= LOGOUT =================
     @PostMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
