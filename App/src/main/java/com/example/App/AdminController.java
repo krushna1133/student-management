@@ -131,7 +131,7 @@ public class AdminController {
     return "redirect:/students";
   }
 
-  // ================= DELETE STUDENT =================
+  // ================= This for DELETE STUDENT =================
   @PostMapping("/students/delete")
   public String deleteStudent(
       @RequestParam int id,
@@ -149,7 +149,6 @@ public class AdminController {
     if (!"ADMIN".equals(session.getAttribute("role"))) {
       return "redirect:/login";
     }
-
     model.addAttribute("name", session.getAttribute("username"));
     model.addAttribute("activePage", "courses");
 
