@@ -114,7 +114,7 @@ public class AdminController {
     return "admin-edit-student";
   }
 
-  // ================= UPDATE STUDENT =================
+  // =================For UPDATE STUDENT =================
   @PostMapping("/students/update")
   public String updateStudent(
       @RequestParam int id,
