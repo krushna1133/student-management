@@ -114,7 +114,7 @@ public class AdminController {
     return "admin-edit-student";
   }
 
-  // =================For UPDATE STUDENT =================
+  // ================= UPDATE STUDENT =================
   @PostMapping("/students/update")
   public String updateStudent(
       @RequestParam int id,
@@ -131,7 +131,7 @@ public class AdminController {
     return "redirect:/students";
   }
 
-  // ================= This for DELETE STUDENT =================
+  // ================= DELETE STUDENT =================
   @PostMapping("/students/delete")
   public String deleteStudent(
       @RequestParam int id,
@@ -149,6 +149,7 @@ public class AdminController {
     if (!"ADMIN".equals(session.getAttribute("role"))) {
       return "redirect:/login";
     }
+
     model.addAttribute("name", session.getAttribute("username"));
     model.addAttribute("activePage", "courses");
 
@@ -157,4 +158,64 @@ public class AdminController {
 
     return "admin-courses";
   }
+
+  // ================= ADD COURSE PAGE =================
+  @GetMapping("/courses/add")
+  public String addCoursePage(HttpSession session, Model model) {
+
+    if (!"ADMIN".equals(session.getAttribute("role"))) {
+      return "redirect:/login";
+    }
+
+    model.addAttribute("activePage", "courses");
+    return "admin-add-course";
+  }
+
+  // ================= ADD COURSE SUBMIT =================
+  @PostMapping("/courses/add")
+  public String addCourse(
+      @RequestParam String name,
+      @RequestParam String description,
+      RedirectAttributes ra) {
+
+    jdbcTemplate.update(
+        "INSERT INTO courses(course_name, description) VALUES (?, ?)",
+        name, description);
+
+    ra.addFlashAttribute("message", "Course added successfully");
+    return "redirect:/courses";
+  }
+
+  @GetMapping("/courses/edit/{id}")
+  public String editCourse(
+      @PathVariable int id,
+      HttpSession session,
+      Model model) {
+
+    if (!"ADMIN".equals(session.getAttribute("role"))) {
+      return "redirect:/login";
+    }
+
+    model.addAttribute("course",
+        jdbcTemplate.queryForMap("SELECT * FROM courses WHERE id=?", id));
+
+    model.addAttribute("activePage", "courses");
+    return "admin-edit-course";
+  }
+
+  @PostMapping("/courses/update")
+  public String updateCourse(
+      @RequestParam int id,
+      @RequestParam String name,
+      @RequestParam String description,
+      RedirectAttributes ra) {
+
+    jdbcTemplate.update(
+        "UPDATE courses SET course_name=?, description=? WHERE id=?",
+        name, description, id);
+
+    ra.addFlashAttribute("message", "Course updated successfully");
+    return "redirect:/courses";
+  }
+
 }

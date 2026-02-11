@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Course</title>
+
+    <link rel="stylesheet" href="/css/sidebar.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <style>
+      body {
+        background: #f5f7fb;
+        font-family: "Segoe UI", Arial;
+      }
+
+      .layout {
+        display: flex;
+        height: 100vh;
+      }
+
+      .main {
+        flex: 1;
+        padding: 30px;
+      }
+
+      .card {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        max-width: 500px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 14px;
+      }
+
+      textarea {
+        resize: none;
+        height: 100px;
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #1e4fd6;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="layout">
+      <!-- Sidebar -->
+      <div th:replace="~{fragments/admin-sidebar :: sidebar('courses')}"></div>
+
+      <!-- Main -->
+      <main class="main">
+        <h2>Add Course</h2>
+
+        <div class="card">
+          <form action="/courses/add" method="post">
+            <input type="text" name="name" placeholder="Course Name" required />
+
+            <textarea
+              name="description"
+              placeholder="Course Description"
+              required
+            ></textarea>
+
+            <button type="submit">
+              <i class="fa-solid fa-plus"></i> Add Course
+            </button>
+          </form>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
