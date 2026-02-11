@@ -19,11 +19,9 @@ public class StudentController {
     // DASHBOARD
     @GetMapping("/student/dashboard")
     public String dashboard(HttpSession session, Model model) {
-
         if (!"STUDENT".equals(session.getAttribute("role"))) {
             return "redirect:/login";
         }
-
         String username = (String) session.getAttribute("username");
 
         model.addAttribute("name", username);
@@ -56,7 +54,7 @@ public class StudentController {
         return "student-updateprofile";
     }
 
-    // UPDATE PROFILE SUBMIT
+    // UPDATE PROFILE SUBMIT for student
     @PostMapping("/student/update-profile")
     public String updateProfile(
             @RequestParam String email,

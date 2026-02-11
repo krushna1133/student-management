@@ -3,70 +3,66 @@
   <head>
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/css/sidebar.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
     <style>
       body {
         background: #f5f7fb;
-        font-family: Segoe UI;
+        font-family: "Segoe UI", sans-serif;
       }
+
       .layout {
         display: flex;
         height: 100vh;
       }
+
       .main {
         flex: 1;
-        padding: 20px;
-      }
-      .layout {
-        display: flex;
-        height: 100vh;
-      }
-      .sidebar {
-        width: 240px;
-        background: white;
-        padding: 20px;
-      }
-      .main {
-        flex: 1;
-        padding: 20px;
-      }
-      .card {
-        background: white;
-        padding: 25px;
-        border-radius: 15px;
-        margin-bottom: 20px;
-      }
-      .stats {
-        font-size: 32px;
-        color: #2563eb;
-        font-weight: bold;
-      }
-
-      table {
-        width: 100%;
-        background: white;
-        border-radius: 12px;
-      }
-      th,
-      td {
-        padding: 12px;
-        border-bottom: 1px solid #eee;
-      }
-
-      .actions {
-        margin-top: 30px;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-      }
-
-      .card {
-        background: white;
         padding: 30px;
-        border-radius: 16px;
-        text-align: center;
+      }
+
+      /* Dashboard grid */
+      .dashboard {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+
+      /* Cards */
+      .card {
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 25px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
       }
+
+      /* Total students card */
+      .stats {
+        font-size: 40px;
+        font-weight: bold;
+        color: #2563eb;
+        margin-top: 10px;
+      }
+
+      /* Chart container */
+      .chart-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 320px;
+      }
+
+      /* Make pie chart smaller */
+      #chart {
+        max-width: 260px !important;
+        max-height: 260px !important;
+      }
     </style>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
@@ -77,13 +73,21 @@
       ></div>
 
       <main class="main">
-        <div class="card">
-          <h2>Total Students</h2>
-          <div class="stats" th:text="${totalStudents}">0</div>
-        </div>
+        <div class="dashboard">
+          <!-- Total Students -->
+          <div class="card">
+            <h3>Total Students</h3>
+            <div class="stats" th:text="${totalStudents}">0</div>
+          </div>
 
-        <div class="card">
-          <canvas id="chart"></canvas>
+          <!-- Pie Chart -->
+          <div class="card">
+            <h3 style="margin-bottom: 15px">Students by Course</h3>
+
+            <div class="chart-box">
+              <canvas id="chart"></canvas>
+            </div>
+          </div>
         </div>
       </main>
     </div>
@@ -108,8 +112,16 @@
                 "#8b5cf6",
                 "#06b6d4",
               ],
+              borderWidth: 0,
             },
           ],
+        },
+        options: {
+          plugins: {
+            legend: {
+              position: "bottom",
+            },
+          },
         },
       });
 

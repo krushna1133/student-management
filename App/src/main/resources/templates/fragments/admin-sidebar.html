@@ -3,36 +3,47 @@
   <body>
     <div th:fragment="sidebar(activePage)">
       <aside class="sidebar">
+        <!-- Profile -->
         <div class="profile">
+          <div class="avatar">
+            <i class="fa-solid fa-user"></i>
+          </div>
           <h3 th:text="${name}">Admin</h3>
           <p>Admin Panel</p>
         </div>
 
-        <ul>
+        <!-- Menu -->
+        <ul class="menu">
           <li
             th:classappend="${activePage == 'dashboard'} ? 'active'"
             onclick="window.location.href = '/admin/dashboard'"
           >
-            Dashboard
+            <i class="fa-solid fa-house"></i>
+            <span>Dashboard</span>
           </li>
 
           <li
             th:classappend="${activePage == 'students'} ? 'active'"
             onclick="window.location.href = '/students'"
           >
-            Students
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Students</span>
           </li>
 
           <li
             th:classappend="${activePage == 'courses'} ? 'active'"
             onclick="window.location.href = '/courses'"
           >
-            Courses
+            <i class="fa-solid fa-book"></i>
+            <span>Courses</span>
           </li>
 
-          <li>
+          <li class="logout-item">
             <form action="/logout" method="post">
-              <button class="logout">Logout</button>
+              <button class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Logout
+              </button>
             </form>
           </li>
         </ul>
