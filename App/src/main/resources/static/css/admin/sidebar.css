@@ -1,0 +1,99 @@
+.sidebar {
+  width: 250px;
+  height: 100vh;
+
+  /* Clean corporate blue gradient */
+  background: linear-gradient(180deg, #0072B8 0%, #005a91 100%);
+
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Profile */
+.profile {
+  text-align: center;
+  padding: 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+
+  /* Yellow accent circle */
+  background: #FFC107;
+  color: #333333;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: bold;
+
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Menu */
+.menu {
+  list-style: none;
+  margin-top: 20px;
+  padding: 0;
+}
+
+.menu li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 22px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 15px;
+  color: #FFFFFF;
+  border-left: 3px solid transparent;
+}
+
+/* Hover */
+.menu li:hover {
+  background: rgba(255, 255, 255, 0.15);
+  padding-left: 26px;
+}
+
+/* Active */
+.menu li.active {
+  background: #FFFFFF;
+  color: #0072B8;
+  font-weight: 600;
+  border-left: 4px solid #FFC107;
+}
+
+/* Logout section */
+.logout-item {
+  margin-top: auto;
+  padding: 12px 20px;
+}
+
+/* Logout button with green success tone */
+.logout-btn {
+  width: 100%;
+  background: #28A745;
+  border: none;
+  color: #FFFFFF;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+.logout-btn:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}

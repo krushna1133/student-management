@@ -2,76 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/css/sidebar.css" />
+
+    <!-- Common + Admin CSS -->
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/admin/sidebar.css" />
+    <link rel="stylesheet" href="/css/admin/dashboard.css" />
+
+    <!-- Icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
 
-    <style>
-      body {
-        background: #f5f7fb;
-        font-family: "Segoe UI", sans-serif;
-      }
-
-      .layout {
-        display: flex;
-        height: 100vh;
-      }
-
-      .main {
-        flex: 1;
-        padding: 30px;
-      }
-
-      /* Dashboard grid */
-      .dashboard {
-        display: grid;
-        grid-template-columns: 280px 1fr;
-        gap: 20px;
-        align-items: start;
-      }
-
-      /* Cards */
-      .card {
-        background: #ffffff;
-        border-radius: 18px;
-        padding: 25px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      }
-
-      /* Total students card */
-      .stats {
-        font-size: 40px;
-        font-weight: bold;
-        color: #2563eb;
-        margin-top: 10px;
-      }
-
-      /* Chart container */
-      .chart-box {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 320px;
-      }
-
-      /* Make pie chart smaller */
-      #chart {
-        max-width: 260px !important;
-        max-height: 260px !important;
-      }
-    </style>
-
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body>
     <div class="layout">
+      <!-- Sidebar -->
       <div
         th:replace="~{fragments/admin-sidebar :: sidebar(${activePage})}"
       ></div>
 
+      <!-- Main -->
       <main class="main">
         <div class="dashboard">
           <!-- Total Students -->
@@ -91,9 +45,9 @@
         </div>
       </main>
     </div>
-    <script th:inline="javascript">
-      /*<![CDATA[*/
 
+    <!-- Chart Script -->
+    <script th:inline="javascript">
       const labels = /*[[${labels}]]*/ [];
       const data = /*[[${counts}]]*/ [];
 
@@ -124,8 +78,6 @@
           },
         },
       });
-
-      /*]]>*/
     </script>
   </body>
 </html>

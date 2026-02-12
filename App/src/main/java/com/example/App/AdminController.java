@@ -25,7 +25,7 @@ public class AdminController {
       return "redirect:/login";
     }
 
-    model.addAttribute("name", session.getAttribute("username"));
+    model.addAttribute("name", session.getAttribute("username")); // REQUIRED
     model.addAttribute("activePage", "dashboard");
 
     Integer total = jdbcTemplate.queryForObject(
@@ -49,9 +49,12 @@ public class AdminController {
     return "admin-dashboard";
   }
 
-  // ================= STUDENTS LIST =================
+  // ================= STUDENTS LIST + SEARCH =================
   @GetMapping("/students")
-  public String students(HttpSession session, Model model) {
+  public String students(
+      @RequestParam(required = false) String keyword,
+      HttpSession session,
+      Model model) {
 
     if (!"ADMIN".equals(session.getAttribute("role"))) {
       return "redirect:/login";
@@ -59,9 +62,21 @@ public class AdminController {
 
     model.addAttribute("name", session.getAttribute("username"));
     model.addAttribute("activePage", "students");
+    model.addAttribute("keyword", keyword);
 
-    model.addAttribute("students",
-        jdbcTemplate.queryForList("SELECT * FROM students"));
+    String sql = "SELECT * FROM students";
+    List<?> students;
+
+    if (keyword != null && !keyword.isBlank()) {
+      sql += " WHERE name ILIKE ? OR email ILIKE ? OR course ILIKE ?";
+      String k = "%" + keyword + "%";
+
+      students = jdbcTemplate.queryForList(sql, k, k, k);
+    } else {
+      students = jdbcTemplate.queryForList(sql);
+    }
+
+    model.addAttribute("students", students);
 
     return "admin-students";
   }
@@ -74,7 +89,13 @@ public class AdminController {
       return "redirect:/login";
     }
 
+    model.addAttribute("name", session.getAttribute("username")); // ⭐ REQUIRED
     model.addAttribute("activePage", "students");
+
+    // ⭐ ALSO REQUIRED for dropdown
+    model.addAttribute("courses",
+        jdbcTemplate.queryForList("SELECT * FROM courses"));
+
     return "admin-add-student";
   }
 
@@ -107,10 +128,15 @@ public class AdminController {
       return "redirect:/login";
     }
 
+    model.addAttribute("name", session.getAttribute("username")); // ⭐ ADD THIS
+    model.addAttribute("activePage", "students");
+
     model.addAttribute("student",
         jdbcTemplate.queryForMap("SELECT * FROM students WHERE id=?", id));
 
-    model.addAttribute("activePage", "students");
+    model.addAttribute("courses",
+        jdbcTemplate.queryForList("SELECT course_name FROM courses"));
+
     return "admin-edit-student";
   }
 
@@ -167,7 +193,9 @@ public class AdminController {
       return "redirect:/login";
     }
 
+    model.addAttribute("name", session.getAttribute("username")); // ⭐ ADD
     model.addAttribute("activePage", "courses");
+
     return "admin-add-course";
   }
 
@@ -196,10 +224,12 @@ public class AdminController {
       return "redirect:/login";
     }
 
+    model.addAttribute("name", session.getAttribute("username")); // ⭐ ADD
+    model.addAttribute("activePage", "courses");
+
     model.addAttribute("course",
         jdbcTemplate.queryForMap("SELECT * FROM courses WHERE id=?", id));
 
-    model.addAttribute("activePage", "courses");
     return "admin-edit-course";
   }
 
@@ -215,6 +245,18 @@ public class AdminController {
         name, description, id);
 
     ra.addFlashAttribute("message", "Course updated successfully");
+    return "redirect:/courses";
+  }
+
+  // ================= DELETE COURSE =================
+  @PostMapping("/courses/delete")
+  public String deleteCourse(
+      @RequestParam int id,
+      RedirectAttributes ra) {
+
+    jdbcTemplate.update("DELETE FROM courses WHERE id=?", id);
+
+    ra.addFlashAttribute("message", "Course deleted successfully");
     return "redirect:/courses";
   }
 

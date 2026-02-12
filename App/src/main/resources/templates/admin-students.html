@@ -2,138 +2,32 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Students</title>
-    <link rel="stylesheet" href="/css/sidebar.css" />
+
+    <!-- Common + Admin CSS -->
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/admin/sidebar.css" />
+    <link rel="stylesheet" href="/css/admin/students.css" />
+
+    <!-- Icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-
-    <style>
-      body {
-        background: #f5f7fb;
-        font-family: "Segoe UI", sans-serif;
-      }
-
-      .layout {
-        display: flex;
-        height: 100vh;
-      }
-
-      .main {
-        flex: 1;
-        padding: 30px;
-      }
-
-      /* Header */
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-      }
-
-      .header h2 {
-        margin: 0;
-      }
-
-      .add-btn {
-        background: #2563eb;
-        color: white;
-        padding: 10px 18px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-size: 14px;
-        transition: 0.2s;
-      }
-
-      .add-btn:hover {
-        background: #1d4ed8;
-      }
-
-      /* Search */
-      .search-box {
-        margin-bottom: 15px;
-      }
-
-      .search-box input {
-        width: 280px;
-        padding: 10px 12px;
-        border-radius: 10px;
-        border: 1px solid #ddd;
-        outline: none;
-      }
-
-      /* Table Card */
-      .table-card {
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-        overflow: hidden;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      th {
-        background: #f1f5f9;
-        text-align: left;
-        padding: 14px;
-        font-size: 14px;
-      }
-
-      td {
-        padding: 14px;
-        border-top: 1px solid #eee;
-        font-size: 14px;
-      }
-
-      tr:hover {
-        background: #f9fbff;
-      }
-
-      /* Action buttons */
-      .action-btn {
-        border: none;
-        padding: 6px 10px;
-        border-radius: 8px;
-        font-size: 13px;
-        cursor: pointer;
-        text-decoration: none;
-        margin-right: 6px;
-      }
-
-      .edit-btn {
-        background: #e0edff;
-        color: #2563eb;
-      }
-
-      .delete-btn {
-        background: #fee2e2;
-        color: #dc2626;
-      }
-
-      .edit-btn:hover {
-        background: #c7dcff;
-      }
-
-      .delete-btn:hover {
-        background: #fecaca;
-      }
-    </style>
   </head>
 
   <body>
     <div class="layout">
+      <!-- Sidebar -->
       <div
         th:replace="~{fragments/admin-sidebar :: sidebar(${activePage})}"
       ></div>
 
+      <!-- Main -->
       <main class="main">
         <!-- Header -->
         <div class="header">
           <h2>Student Management</h2>
+
           <a href="/students/add" class="add-btn">
             <i class="fa-solid fa-plus"></i> Add Student
           </a>
@@ -141,7 +35,14 @@
 
         <!-- Search -->
         <div class="search-box">
-          <input type="text" placeholder="Search students..." />
+          <form method="get" action="/students">
+            <input
+              type="text"
+              name="keyword"
+              placeholder="Search by name, email, or course..."
+              th:value="${keyword}"
+            />
+          </form>
         </div>
 
         <!-- Table -->
@@ -178,6 +79,7 @@
                     style="display: inline"
                   >
                     <input type="hidden" name="id" th:value="${s.id}" />
+
                     <button
                       type="submit"
                       class="action-btn delete-btn"

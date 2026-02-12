@@ -2,36 +2,77 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Edit Student</title>
-    <link rel="stylesheet" href="/css/sidebar.css" />
+
+    <!-- Common + Admin CSS -->
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/admin/sidebar.css" />
+    <link rel="stylesheet" href="/css/admin/form.css" />
+
+    <!-- Icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
   </head>
+
   <body>
     <div class="layout">
-      <div th:replace="~{fragments/admin-sidebar :: sidebar('students')}"></div>
+      <!-- Sidebar -->
+      <div
+        th:replace="~{fragments/admin-sidebar :: sidebar(${activePage})}"
+      ></div>
 
+      <!-- Main -->
       <main class="main">
-        <h2>Edit Student</h2>
+        <!-- Page Header -->
+        <div class="page-header">
+          <h2><i class="fa-solid fa-user-pen"></i> Edit Student</h2>
+        </div>
 
-        <form action="/admin/students/update" method="post">
-          <input type="hidden" name="id" th:value="${student.id}" />
+        <!-- Centered Form -->
+        <div class="form-wrapper">
+          <div class="card">
+            <form action="/students/update" method="post">
+              <input type="hidden" name="id" th:value="${student.id}" />
 
-          <input name="name" th:value="${student.name}" required /><br /><br />
-          <input
-            name="email"
-            th:value="${student.email}"
-            required
-          /><br /><br />
-          <input
-            name="course"
-            th:value="${student.course}"
-            required
-          /><br /><br />
+              <div class="form-group">
+                <label>Student Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  th:value="${student.name}"
+                  required
+                />
+              </div>
 
-          <button type="submit">Update</button>
-        </form>
+              <div class="form-group">
+                <label>Email Address</label>
+                <input
+                  type="email"
+                  name="email"
+                  th:value="${student.email}"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Select Course</label>
+                <select name="course" required>
+                  <option
+                    th:each="c : ${courses}"
+                    th:value="${c.course_name}"
+                    th:text="${c.course_name}"
+                    th:selected="${c.course_name == student.course}"
+                  ></option>
+                </select>
+              </div>
+
+              <button class="submit-btn" type="submit">
+                <i class="fa-solid fa-pen"></i> Update Student
+              </button>
+            </form>
+          </div>
+        </div>
       </main>
     </div>
   </body>

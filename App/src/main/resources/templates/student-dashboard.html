@@ -4,150 +4,38 @@
     <meta charset="UTF-8" />
     <title>Student Dashboard</title>
 
+    <!-- Common + Student CSS -->
+    <link rel="stylesheet" href="/css/common.css" />
+    <link rel="stylesheet" href="/css/student/sidebar.css" />
+    <link rel="stylesheet" href="/css/student/dashboard.css" />
+
+    <!-- Icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="/css/sidebar.css" />
-
-    <style>
-      .layout {
-        display: flex;
-        height: 100vh;
-      }
-      .sidebar {
-        width: 240px;
-        background: white;
-        padding: 20px;
-      }
-      .main {
-        flex: 1;
-        padding: 20px;
-      }
-      .card {
-        background: white;
-        padding: 25px;
-        border-radius: 15px;
-        margin-bottom: 20px;
-      }
-      .stats {
-        font-size: 32px;
-        color: #2563eb;
-        font-weight: bold;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Segoe UI", Arial, sans-serif;
-      }
-
-      body {
-        background: #f5f7fb;
-      }
-
-      .layout {
-        display: flex;
-        height: 100vh;
-      }
-
-      /* MAIN */
-      .main {
-        flex: 1;
-        padding: 20px;
-        overflow-y: auto;
-      }
-
-      /* TOPBAR */
-      .topbar {
-        background: white;
-        padding: 15px 20px;
-        border-radius: 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 25px;
-      }
-
-      .logout-btn {
-        background: none;
-        border: none;
-        color: red;
-        cursor: pointer;
-        font-size: 14px;
-      }
-
-      /* CARDS */
-      .cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: 20px;
-      }
-
-      .card {
-        background: white;
-        padding: 25px;
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      }
-
-      .card h3 {
-        color: #2563eb;
-        margin-bottom: 10px;
-      }
-
-      /* FORM */
-      .form-card {
-        margin-top: 30px;
-        max-width: 420px;
-      }
-
-      .form-card input {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-      }
-
-      .form-card button {
-        margin-top: 15px;
-        width: 100%;
-        padding: 10px;
-        border-radius: 8px;
-        border: none;
-        background: #2563eb;
-        color: white;
-        font-weight: 600;
-        cursor: pointer;
-      }
-
-      .form-card button:hover {
-        background: #1e40af;
-      }
-    </style>
   </head>
 
   <body>
     <div class="layout">
-      <!-- ✅ EXISTING STUDENT SIDEBAR -->
+      <!-- Student Sidebar -->
       <div
         th:replace="~{fragments/student-sidebar :: sidebar(${activePage})}"
       ></div>
 
-      <!-- MAIN CONTENT -->
+      <!-- Main Content -->
       <main class="main">
+        <!-- Topbar -->
         <div class="topbar">
           <h2>Student Dashboard</h2>
-          <form action="/logout" method="post">
+          <!-- <form action="/logout" method="post">
             <button class="logout-btn">
               <i class="fa-solid fa-right-from-bracket"></i> Logout
             </button>
-          </form>
+          </form> -->
         </div>
 
-        <!-- STUDENT INFO -->
+        <!-- Student Info -->
         <div class="cards">
           <div class="card">
             <h3>Name</h3>
@@ -165,7 +53,7 @@
           </div>
         </div>
 
-        <!-- UPDATE PROFILE -->
+        <!-- Update Profile -->
         <div class="card form-card" th:if="${activePage == 'profile'}">
           <h3>Update Profile / Password</h3>
 

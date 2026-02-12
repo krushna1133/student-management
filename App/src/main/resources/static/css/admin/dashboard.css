@@ -1,0 +1,36 @@
+/* ===== Dashboard Grid ===== */
+.dashboard {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ===== Cards ===== */
+.card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Stats ===== */
+.stats {
+  font-size: 40px;
+  font-weight: bold;
+  color: #2563eb;
+  margin-top: 10px;
+}
+
+/* ===== Chart ===== */
+.chart-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 320px;
+}
+
+#chart {
+  max-width: 260px !important;
+  max-height: 260px !important;
+}

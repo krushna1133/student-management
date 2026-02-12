@@ -18,18 +18,19 @@ public class StudentController {
 
     // DASHBOARD
     @GetMapping("/student/dashboard")
-    public String dashboard(HttpSession session, Model model) {
+    public String studentDashboard(HttpSession session, Model model) {
+
         if (!"STUDENT".equals(session.getAttribute("role"))) {
             return "redirect:/login";
         }
-        String username = (String) session.getAttribute("username");
 
-        model.addAttribute("name", username);
-        model.addAttribute("activePage", "dashboard");
+        model.addAttribute("name", session.getAttribute("username")); // REQUIRED
+        model.addAttribute("activePage", "dashboard"); // REQUIRED
 
         model.addAttribute("student",
                 jdbcTemplate.queryForMap(
-                        "SELECT * FROM students WHERE username=?", username));
+                        "SELECT * FROM students WHERE username=?",
+                        session.getAttribute("username")));
 
         return "student-dashboard";
     }
