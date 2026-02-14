@@ -109,6 +109,16 @@ public class AdminController {
       @RequestParam String password,
       RedirectAttributes ra) {
 
+    Integer count = jdbcTemplate.queryForObject(
+        "SELECT COUNT(*) FROM students WHERE username=?",
+        Integer.class,
+        username);
+
+    if (count != null && count > 0) {
+      ra.addFlashAttribute("error", "Username already exists");
+      return "redirect:/students/add";
+    }
+
     jdbcTemplate.update(
         "INSERT INTO students(name,email,course,username,password) VALUES (?,?,?,?,?)",
         name, email, course, username, password);

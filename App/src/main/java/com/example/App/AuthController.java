@@ -1,6 +1,8 @@
 package com.example.App;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.ui.Model;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -25,9 +27,12 @@ public class AuthController {
         return "login";
     }
 
-    // REGISTER PAGE
     @GetMapping("/register")
-    public String registerPage() {
+    public String registerPage(Model model) {
+
+        model.addAttribute("courses",
+                jdbcTemplate.queryForList("SELECT course_name FROM courses"));
+
         return "register";
     }
 
@@ -70,10 +75,10 @@ public class AuthController {
             @RequestParam String username,
             @RequestParam String email,
             @RequestParam String course,
+            @RequestParam(required = false) String otherCourse,
             @RequestParam String password,
             RedirectAttributes ra) {
 
-        // check if username already exists
         Integer count = jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM students WHERE username=?",
                 Integer.class, username.trim());
@@ -83,7 +88,11 @@ public class AuthController {
             return "redirect:/register";
         }
 
-        // insert new student
+        // if OTHER selected → use otherCourse value
+        if ("OTHER".equals(course) && otherCourse != null && !otherCourse.isBlank()) {
+            course = otherCourse.trim();
+        }
+
         jdbcTemplate.update(
                 "INSERT INTO students (name, username, email, course, password) VALUES (?, ?, ?, ?, ?)",
                 name.trim(), username.trim(), email.trim(), course.trim(), password.trim());

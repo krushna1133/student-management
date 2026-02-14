@@ -98,6 +98,34 @@
         transition: all 0.2s ease;
       }
 
+      /* SELECT same as input */
+      select {
+        width: 100%;
+        height: 48px;
+        padding: 0 16px;
+        border-radius: 12px;
+        border: 1px solid #e0e0e0;
+        font-size: 15px;
+        background: #fafafa;
+        transition: all 0.2s ease;
+        appearance: none; /* remove default arrow */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+
+        /* custom arrow */
+        background-image: url("data:image/svg+xml;utf8,<svg fill='%239e9e9e' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 18px;
+      }
+
+      select:focus {
+        outline: none;
+        background-color: #ffffff;
+        border-color: #ffb703;
+        box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.25);
+      }
+
       input::placeholder {
         color: #9e9e9e;
       }
@@ -193,7 +221,26 @@
           <input type="text" name="name" placeholder="Full Name" required />
           <input type="text" name="username" placeholder="Username" required />
           <input type="email" name="email" placeholder="Email" required />
-          <input type="text" name="course" placeholder="Course" required />
+          <select name="course" id="courseSelect" required>
+            <option value="">Select Course</option>
+
+            <option
+              th:each="c : ${courses}"
+              th:value="${c.course_name}"
+              th:text="${c.course_name}"
+            ></option>
+
+            <option value="OTHER">Other</option>
+          </select>
+
+          <input
+            type="text"
+            name="otherCourse"
+            id="otherCourseInput"
+            placeholder="Enter your course"
+            style="display: none"
+          />
+
           <input
             type="password"
             name="password"
@@ -212,6 +259,19 @@
     </div>
 
     <script>
+      const select = document.getElementById("courseSelect");
+      const otherInput = document.getElementById("otherCourseInput");
+
+      select.addEventListener("change", () => {
+        if (select.value === "OTHER") {
+          otherInput.style.display = "block";
+          otherInput.required = true;
+        } else {
+          otherInput.style.display = "none";
+          otherInput.required = false;
+        }
+      });
+
       const orb = document.getElementById("orb");
 
       document.addEventListener("mousemove", (e) => {

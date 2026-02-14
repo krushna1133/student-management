@@ -100,3 +100,26 @@ textarea:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
+
+
+/* Error alert box */
+.alert-error {
+  background: #ffe5e5;
+  color: #d93025;
+  border: 1px solid #f5b5b5;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  font-weight: 500;
+}
+
+/* Success alert box */
+.alert-success {
+  background: #e6f4ea;
+  color: #188038;
+  border: 1px solid #b7dfc5;
+  padding: 12px 16px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  font-weight: 500;
+}
