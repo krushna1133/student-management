@@ -182,7 +182,6 @@ SUPABASE_DB_PASSWORD=
 
 Krushna Rathod  
 B.Tech – Artificial Intelligence & Data Science  
-Full Stack Developer  
 
 ---
 
