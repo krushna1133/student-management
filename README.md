@@ -1,101 +1,189 @@
-This project is using Spring Boot and supabase with login, register, forget password . After login there are logout option, student tab where student can add, delete, update
-You can check here: https://student.gridly.xyz/
+# 🎓 Student Management System (Spring Boot + Supabase)
 
-# Student Management System (Spring Boot)
+A full-stack **role-based Student Management System** built using **Spring Boot, Thymeleaf, and Supabase (PostgreSQL)**.
 
-A role-based **Student Management System** built using **Spring Boot** and **Thymeleaf**.  
-The application provides separate dashboards for **Admin** and **Student** users with secure login and session-based access control.
-
-The backend database is powered by **Supabase (PostgreSQL)**.
+🔗 **Live Demo:**  
+https://student.gridly.xyz/
 
 ---
 
-## 🚀 Features
+## 🚀 Overview
 
-### 🔐 Authentication
+This system provides:
 
-- Admin and Student login
-- Role-based access control
-- Secure session handling
-- Logout functionality
-
-### 👨‍💼 Admin Features
-
-- Admin dashboard with total student count
-- Pie chart showing students by course
-- View students list
-- Manage courses
-- Sidebar navigation with active state
-
-### 👨‍🎓 Student Features
-
-- Student dashboard
-- View personal details
-- Update profile (email & password)
-- Separate student sidebar with active state
+- Secure authentication (Login / Register / Forgot Password)
+- Role-based dashboards (Admin & Student)
+- CRUD operations for student management
+- Course management
+- Supabase PostgreSQL integration
+- Clean UI with sidebar navigation and charts
 
 ---
 
-## 🧰 Technologies Used
+## 🔐 Authentication Features
+
+- Login  
+- Register  
+- Forgot Password  
+- Logout  
+- Role-based session handling  
+- Access control (Admin / Student)  
+
+---
+
+## 👨‍💼 Admin Dashboard
+
+- Total student count  
+- Students by course (Pie Chart using Chart.js)  
+- Add Student  
+- Update Student  
+- Delete Student  
+- Manage Courses  
+- Sidebar navigation with active state  
+
+---
+
+## 👨‍🎓 Student Dashboard
+
+- View personal details  
+- Update email & password  
+- Secure session-based access  
+- Dedicated sidebar UI  
+
+---
+
+## 🧰 Tech Stack
 
 ### Backend
-
-- Java 21
-- Spring Boot
-- Spring MVC
-- JDBC Template
-- PostgreSQL (Supabase)
+- Java 21  
+- Spring Boot  
+- Spring MVC  
+- JDBC Template  
+- PostgreSQL (Supabase)  
 
 ### Frontend
-
-- HTML5
-- CSS3
-- Thymeleaf
-- Chart.js
-- Font Awesome
+- HTML5  
+- CSS3  
+- Thymeleaf  
+- Chart.js  
+- Font Awesome  
 
 ### Tools
-
-- VS Code
-- Maven
-- Git & GitHub
-- Supabase
+- Maven  
+- Git & GitHub  
+- VS Code  
+- Supabase  
 
 ---
 
 ## 📂 Project Structure
 
 ```text
-student-management-system
+student-management
 │
-├── src/main/java/com/example/App
-│   ├── AppApplication.java
-│   ├── AuthController.java
-│   ├── AdminController.java
-│   └── StudentController.java
-│
-├── src/main/resources
-│   ├── static/css
-│   │   └── sidebar.css
-│   │
-│   ├── templates
-│   │   ├── index.html
-│   │   ├── login.html
-│   │   ├── register.html
-│   │   ├── admin-dashboard.html
-│   │   ├── admin-students.html
-│   │   ├── admin-courses.html
-│   │   ├── student-dashboard.html
-│   │   ├── student-updateprofile.html
-│   │   └── fragments
-│   │       ├── admin-sidebar.html
-│   │       └── student-sidebar.html
-│   │
-│   ├── application.properties
-│   └── error/404.html
+├── app
+│   ├── src/main/java/com/example/App
+│   ├── src/main/resources
+│   │   ├── static/css
+│   │   ├── templates
+│   │   └── application.properties
+│   └── pom.xml
 │
 ├── .env
 ├── .gitignore
-├── pom.xml
 └── README.md
 ```
+
+---
+
+## ⚙️ Setup & Run Locally
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/krushna1133/student-management
+```
+
+### 2️⃣ Move Into Project Directory
+
+```bash
+cd student-management/app
+```
+
+### 3️⃣ Configure Database
+
+Open:
+
+```
+src/main/resources/application.properties
+```
+
+Add your Supabase PostgreSQL credentials:
+
+```properties
+spring.datasource.url=jdbc:postgresql://YOUR_HOST:5432/YOUR_DB
+spring.datasource.username=YOUR_USERNAME
+spring.datasource.password=YOUR_PASSWORD
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+server.port=8080
+```
+
+---
+
+### 4️⃣ Run the Application
+
+```bash
+mvn spring-boot:run
+```
+
+Open in browser:
+
+```
+http://localhost:8080
+```
+
+---
+
+## 🌍 Environment Variables (.env)
+
+Example:
+
+```
+SUPABASE_DB_URL=
+SUPABASE_DB_USER=
+SUPABASE_DB_PASSWORD=
+```
+
+---
+
+## 📊 Database
+
+- Hosted on Supabase  
+- PostgreSQL  
+- Connected via JDBC Template  
+- Auto table creation with `hibernate.ddl-auto=update`  
+
+---
+
+## 📌 Future Improvements
+
+- JWT Authentication  
+- Password encryption with BCrypt  
+- REST API version  
+- Docker deployment  
+- Role management system  
+- Audit logging  
+
+---
+
+## 👨‍💻 Author
+
+Krushna Rathod  
+B.Tech – Artificial Intelligence & Data Science  
+Full Stack Developer  
+
+---
+
+⭐ If you found this project useful, consider giving it a star.
