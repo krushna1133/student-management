@@ -1,57 +1,61 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <body>
-    <!-- ✅ ONLY ONE PARAMETER -->
-    <div th:fragment="sidebar(activePage)">
-      <aside class="sidebar">
-        <!-- Profile -->
-        <div class="profile">
-          <div class="avatar">
-            <i class="fa-solid fa-user"></i>
-          </div>
 
-          <!-- name comes from MODEL, not fragment param -->
-          <h3 th:text="${name}">Admin</h3>
-          <p>Admin Panel</p>
+<body>
+  <!-- ✅ ONLY ONE PARAMETER -->
+  <div th:fragment="sidebar(activePage)">
+    <aside class="sidebar">
+
+      <!-- Profile -->
+      <div class="profile">
+        <div class="avatar">
+          <i class="fa-solid fa-user"></i>
         </div>
 
-        <!-- Menu -->
-        <ul class="menu">
-          <li
-            th:classappend="${activePage == 'dashboard'} ? 'active'"
-            onclick="location.href = '/admin/dashboard'"
-          >
-            <i class="fa-solid fa-house"></i>
-            <span>Dashboard</span>
-          </li>
+        <h3 th:text="${name}">Admin</h3>
+        <p>Admin Panel</p>
+      </div>
 
-          <li
-            th:classappend="${activePage == 'students'} ? 'active'"
-            onclick="location.href = '/students'"
-          >
-            <i class="fa-solid fa-user-graduate"></i>
-            <span>Students</span>
-          </li>
+      <!-- Menu -->
+      <ul class="menu">
 
-          <li
-            th:classappend="${activePage == 'courses'} ? 'active'"
-            onclick="location.href = '/courses'"
-          >
-            <i class="fa-solid fa-book"></i>
-            <span>Courses</span>
-          </li>
+        <!-- Dashboard -->
+        <li th:classappend="${activePage == 'dashboard'} ? 'active'" onclick="location.href = '/admin/dashboard'">
+          <i class="fa-solid fa-house"></i>
+          <span>Dashboard</span>
+        </li>
 
-          <!-- Logout -->
-          <li class="logout-item">
-            <form action="/logout" method="post">
-              <button type="submit" class="logout-btn">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Logout</span>
-              </button>
-            </form>
-          </li>
-        </ul>
-      </aside>
-    </div>
-  </body>
+        <!-- Students -->
+        <li th:classappend="${activePage == 'students'} ? 'active'" onclick="location.href = '/students'">
+          <i class="fa-solid fa-user-graduate"></i>
+          <span>Students</span>
+        </li>
+
+        <!-- Courses -->
+        <li th:classappend="${activePage == 'courses'} ? 'active'" onclick="location.href = '/courses'">
+          <i class="fa-solid fa-book"></i>
+          <span>Courses</span>
+        </li>
+
+        <!-- Employee Data -->
+        <li th:classappend="${activePage == 'employees'} ? 'active'" onclick="location.href = '/employees'">
+          <i class="fa-solid fa-users"></i>
+          <span>Employee Data</span>
+        </li>
+
+        <!-- Logout -->
+        <li class="logout-item">
+          <form action="/logout" method="post">
+            <button type="submit" class="logout-btn">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              <span>Logout</span>
+            </button>
+          </form>
+        </li>
+
+      </ul>
+    </aside>
+  </div>
+</body>
+
 </html>

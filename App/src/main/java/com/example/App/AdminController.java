@@ -270,4 +270,18 @@ public class AdminController {
     return "redirect:/courses";
   }
 
+  // ================= EMPLOYEES =================
+  @GetMapping("/employees")
+  public String employees(HttpSession session, Model model) {
+
+    if (!"ADMIN".equals(session.getAttribute("role"))) {
+      return "redirect:/login";
+    }
+
+    model.addAttribute("name", session.getAttribute("username"));
+    model.addAttribute("activePage", "employees");
+
+    return "admin-employees";
+  }
+
 }
